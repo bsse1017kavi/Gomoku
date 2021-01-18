@@ -43,6 +43,8 @@ public class GomokuLogic
                 break;
             }
 
+            isHuman = !isHuman;
+
             i++;
         }
 
