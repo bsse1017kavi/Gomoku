@@ -2,18 +2,17 @@ package gamePackage;
 
 public class AI
 {
-    public void makeMove()
+    Utils utils = new Utils();
+    int depth = 1;
+
+    public void makeMove(Board board)
     {
-        for(int i=0;i<GomokuLogic.dimension;i++)
-        {
-            for(int j=0;j<GomokuLogic.dimension;j++)
-            {
-                if(GomokuLogic.validate_input(i,j))
-                {
-                    GomokuLogic.board[i][j] = 1;
-                    return;
-                }
-            }
-        }
+
+        Node root = new Node(board, null, 1);
+        root.populateChildren(1, 5);
+        board.makeMove(root.nextMove, 1);
+        System.out.println(root.nextMove);
     }
+
+
 }
