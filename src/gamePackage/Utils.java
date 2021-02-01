@@ -17,8 +17,6 @@ public class Utils {
 
     public WinStates checkWin(Board board)
     {
-        if(isStalemate(board))
-            return WinStates.Draw;
 
         int hwin = getHorizontalWin(board);
         int dwin = getDiagWin(board);
@@ -29,7 +27,8 @@ public class Utils {
         else if(hwin == 1 || dwin == 1 || vwin == 1)
             return WinStates.AI_Win;
 
-
+        if(isStalemate(board))
+            return WinStates.Draw;
 
         return WinStates.Continue;
     }

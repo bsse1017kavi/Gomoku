@@ -50,7 +50,11 @@ public class MainGUI extends Application
                 public void handle(MouseEvent event) {
                     int x = (int)Math.floor((event.getSceneX()/cellPixelSize));
                     int y = (int)Math.floor((event.getSceneY()/cellPixelSize));
-                    handleUserInput(x, y);
+                    if(helper.utils.validate_input(helper.board,y,x))
+                    {
+                        handleUserInput(x, y);
+                    }
+
                 }
             });
 
