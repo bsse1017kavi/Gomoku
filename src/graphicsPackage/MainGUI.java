@@ -72,6 +72,7 @@ public class MainGUI extends Application
         Circle circle = new Circle(cellPixelSize/2);
         circle.setFill(Color.GREEN);
         grid.add(circle, move.y, move.x);
+        helper.continueGame();
     }
 
     void handleUserInput(int x, int y) {
@@ -82,7 +83,8 @@ public class MainGUI extends Application
         Move move = new Move(y, x);
         helper.humanMove(move);
         System.out.println(move);
-        displayAIInput();
+        if(helper.continueGame())
+            displayAIInput();
     }
 
     public static void main(String[] args)

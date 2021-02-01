@@ -20,8 +20,8 @@ public class Node {
 
     public void populateChildren(int depth, int max){
         WinStates temp = utils.checkWin(board);
-        if(depth > max || temp != WinStates.Continue) {
-            value = evaluate(temp);
+        if(depth > max || temp != WinStates.Continue || (value!=null && (value > 800 || value <-800))) {
+            value = evaluate(temp, depth);
             return;
         }
 
@@ -105,17 +105,17 @@ public class Node {
 
     private void shit() {
         AI.shit++;
-        if(AI.shit % 100000 == 0)
+        if(AI.shit % 1000000 == 0)
             System.out.println(AI.shit / 1000000.0);
     }
 
-    int evaluate(WinStates states) {
+    int evaluate(WinStates states, int depth) {
         /// WinStates states = utils.checkWin(board);
         if(states == WinStates.AI_Win)
-            return 1000;
+            return 1000 - 20*depth;
 
         else if(states == WinStates.Human_Win)
-            return -1000;
+            return -1000 + 20*depth;
         else if(states == WinStates.Draw)
             return 0;
         else
