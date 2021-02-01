@@ -27,11 +27,10 @@ public class Node {
 
         boolean breakCondition = false;
 
-        for(int i=0; i<board.dimension && !breakCondition; i++)
+        /*for(int i=0; i<board.dimension && !breakCondition; i++)
         {
             for(int j = 0; j<board.dimension && !breakCondition; j++)
             {
-
                 shit();
 
                 Move newMove = new Move(i, j);
@@ -44,6 +43,33 @@ public class Node {
                     updateValue(node);
                     board.undoMove(newMove);
                     breakCondition = evaluateToBreak();
+                }
+
+            }
+        }*/
+
+        int dim = GomokuLogic.dimension;
+        int hdim = dim/2;
+
+        for(int k=1; k<hdim+1; k++) {
+            for(int i=hdim-k; i<Math.min(hdim+k, dim) && !breakCondition; i++)
+            {
+                for(int j = hdim-k; j<Math.min(hdim+k, dim) && !breakCondition; j++)
+                {
+                    shit();
+
+                    Move newMove = new Move(i, j);
+                    if(board.validate_input(newMove))
+                    {
+                        board.makeMove(newMove, turn);
+                        Node node = new Node(board, newMove, (turn+1)%2, this);
+                        children.add(node);
+                        node.populateChildren(depth+1, max);
+                        updateValue(node);
+                        board.undoMove(newMove);
+                        breakCondition = evaluateToBreak();
+                    }
+
                 }
             }
         }
@@ -118,6 +144,8 @@ public class Node {
             return -1000 + 20*depth;
         else if(states == WinStates.Draw)
             return 0;
+        /*else
+            return utils.getDistFromCenter(move);*/
         else
             return -1;
     }

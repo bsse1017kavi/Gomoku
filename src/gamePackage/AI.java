@@ -10,7 +10,7 @@ public class AI
     {
 
         Node root = new Node(board, null, 1, null);
-        root.populateChildren(1, 6);
+        root.populateChildren(1, 5);
         board.makeMove(root.nextMove, 1);
         System.out.println(root.nextMove);
         System.out.println(root.value);
