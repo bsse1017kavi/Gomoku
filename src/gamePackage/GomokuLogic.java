@@ -8,11 +8,12 @@ public class GomokuLogic
 
     Board board = new Board(dimension);
     Utils utils = new Utils();
+    Move humanMove = null;
 
 
     boolean isHuman = false;
 
-    AI ai = new AI();
+    AI ai = new AI(board);
 
     public GomokuLogic()
     {
@@ -24,6 +25,14 @@ public class GomokuLogic
                 board.board[i][j] = -1;
             }
         }
+
+       /* board.board[0][0] = 0;
+        board.board[0][1] = 1;
+        board.board[1][1] = 1;
+        board.board[1][2] = 0;*/
+        /*board.board[9][8] = 1;
+        board.board[8][7] = 1;*/
+
 
     }
 
@@ -48,6 +57,8 @@ public class GomokuLogic
                 break;
             }
 
+            // giveTurn();
+
             isHuman = !isHuman;
         }
 
@@ -56,7 +67,6 @@ public class GomokuLogic
 
     public void giveTurn()
     {
-        Move humanMove = null;
         if(isHuman)
         {
             while(true)
@@ -67,10 +77,6 @@ public class GomokuLogic
                 x = scanner.nextInt();
                 y = scanner.nextInt();
                 humanMove = new Move(x, y);
-
-                //System.out.println(x + " " + y);
-
-                //scanner.close();
 
                 if(utils.validate_input(board, x,y))
                 {
@@ -87,7 +93,7 @@ public class GomokuLogic
 
         else
         {
-            ai.makeMove(board);
+            ai.makeMove(board, humanMove);
         }
     }
 

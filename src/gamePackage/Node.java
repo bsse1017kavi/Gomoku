@@ -19,11 +19,25 @@ public class Node {
     }
 
     public void populateChildren(int depth, int max){
+
+        /*if(children.size() != 0)
+        {
+            for(Node n: children)
+                n.populateChildren(depth + 1, max);
+            return;
+        }*/
+
         WinStates temp = utils.checkWin(board);
         if(depth > max || temp != WinStates.Continue) {
-            value = evaluate(temp);
+            value = evaluate(temp, depth);
             return;
         }
+
+        /*WinStates temp = utils.checkWin(board);
+        if(depth > max) {
+            value = evaluate(temp);
+            return;
+        }*/
 
         boolean breakCondition = false;
 
@@ -37,28 +51,24 @@ public class Node {
                 Move newMove = new Move(i, j);
                 if(board.validate_input(newMove))
                 {
+                    // shit();
+
                     board.makeMove(newMove, turn);
                     Node node = new Node(board, newMove, (turn+1)%2, this);
                     children.add(node);
-                    node.populateChildren(depth+1, max);
-                    updateValue(node);
+
+                        node.populateChildren(depth+1, max);
+                        updateValue(node);
+
                     board.undoMove(newMove);
                     breakCondition = evaluateToBreak();
                 }
             }
         }
 
-        /*Node n;
-        if(turn == 0)
-        {
-            n = utils.getMinChildren(children);
-        }
-        else
-        {
-            n = utils.getMaxChildren(children);
-        }
-        nextMove = n.move;
-        value = n.value;*/
+
+
+
 
 
     }
@@ -86,12 +96,12 @@ public class Node {
             flag = true;
         }
 
-        else if(turn == 0 && value > node.value)
+        else if(turn == 0 && value >= node.value)
         {
             // value = Math.min(value, node.value);
             flag = true;
         }
-        else if(turn == 1 && value < node.value)
+        else if(turn == 1 && value <= node.value)
         {
             // value = Math.max(value, node.value);
             flag = true;
@@ -101,6 +111,7 @@ public class Node {
             nextMove = node.move;
             value = node.value;
         }
+
     }
 
     private void shit() {
@@ -109,13 +120,13 @@ public class Node {
             System.out.println(AI.shit / 1000000.0);
     }
 
-    int evaluate(WinStates states) {
+    int evaluate(WinStates states, int depth) {
         /// WinStates states = utils.checkWin(board);
         if(states == WinStates.AI_Win)
-            return 1000;
+            return 1000 - depth*30;
 
         else if(states == WinStates.Human_Win)
-            return -1000;
+            return -1000 + depth * 30;
         else if(states == WinStates.Draw)
             return 0;
         else
