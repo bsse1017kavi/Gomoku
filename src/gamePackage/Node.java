@@ -27,9 +27,15 @@ public class Node {
         {
             for(int j = 0; j<board.dimension; j++)
             {
+
+                // shit();
+
                 Move newMove = new Move(i, j);
                 if(board.validate_input(newMove))
                 {
+
+
+
                     board.makeMove(newMove, turn);
                     Node node = new Node(board, newMove, (turn+1)%2);
                     children.add(node);
@@ -52,6 +58,12 @@ public class Node {
         value = n.value;
 
 
+    }
+
+    private void shit() {
+        AI.shit++;
+        if(AI.shit % 100000 == 0)
+            System.out.println(AI.shit / 1000000.0);
     }
 
     int evaluate(WinStates states) {
