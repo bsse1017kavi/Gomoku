@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class GomokuLogic
 {
-    public static int dimension = 3, winCount = 2;
+    public static int dimension = 10, winCount = 4;
 
     Board board = new Board(dimension);
     Utils utils = new Utils();

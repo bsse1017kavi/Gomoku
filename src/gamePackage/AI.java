@@ -9,8 +9,8 @@ public class AI
     public void makeMove(Board board)
     {
 
-        Node root = new Node(board, null, 1);
-        root.populateChildren(1, 10);
+        Node root = new Node(board, null, 1, null);
+        root.populateChildren(1, 6);
         board.makeMove(root.nextMove, 1);
         System.out.println(root.nextMove);
     }

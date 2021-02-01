@@ -3,17 +3,19 @@ package gamePackage;
 import java.util.ArrayList;
 
 public class Node {
+    Node parent;
     ArrayList<Node> children = new ArrayList<>();
     Board board;
     Move move, nextMove;
-    int turn, value;
+    Integer turn, value = null;
     Utils utils = new Utils();
 
 
-    public Node(Board board, Move move, int turn) {
+    public Node(Board board, Move move, int turn, Node parent) {
         this.board = board;
         this.move = move;
         this.turn = turn;
+        this.parent = parent;
     }
 
     public void populateChildren(int depth, int max){
@@ -23,29 +25,30 @@ public class Node {
             return;
         }
 
-        for(int i=0; i<board.dimension; i++)
+        boolean breakCondition = false;
+
+        for(int i=0; i<board.dimension && !breakCondition; i++)
         {
-            for(int j = 0; j<board.dimension; j++)
+            for(int j = 0; j<board.dimension && !breakCondition; j++)
             {
 
-                // shit();
+                shit();
 
                 Move newMove = new Move(i, j);
                 if(board.validate_input(newMove))
                 {
-
-
-
                     board.makeMove(newMove, turn);
-                    Node node = new Node(board, newMove, (turn+1)%2);
+                    Node node = new Node(board, newMove, (turn+1)%2, this);
                     children.add(node);
                     node.populateChildren(depth+1, max);
+                    updateValue(node);
                     board.undoMove(newMove);
+                    breakCondition = evaluateToBreak();
                 }
             }
         }
 
-        Node n;
+        /*Node n;
         if(turn == 0)
         {
             n = utils.getMinChildren(children);
@@ -55,9 +58,49 @@ public class Node {
             n = utils.getMaxChildren(children);
         }
         nextMove = n.move;
-        value = n.value;
+        value = n.value;*/
 
 
+    }
+
+    private boolean evaluateToBreak()
+    {
+        if(parent == null || parent.value == null)
+            return false;
+
+        if(parent.turn == 0) {
+            return parent.value <= value;
+        }
+
+        else {
+            return parent.value >= value;
+        }
+    }
+
+    private void updateValue(Node node) {
+        boolean flag = false;
+
+        if(value == null)
+        {
+            value = node.value;
+            flag = true;
+        }
+
+        else if(turn == 0 && value > node.value)
+        {
+            // value = Math.min(value, node.value);
+            flag = true;
+        }
+        else if(turn == 1 && value < node.value)
+        {
+            // value = Math.max(value, node.value);
+            flag = true;
+        }
+        if(flag)
+        {
+            nextMove = node.move;
+            value = node.value;
+        }
     }
 
     private void shit() {
