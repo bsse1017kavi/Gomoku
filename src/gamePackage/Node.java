@@ -19,10 +19,10 @@ public class Node {
     }
 
     public void populateChildren(int depth, int max){
-        WinStates temp = utils.checkWin(board);
-        if(depth > max || temp != WinStates.Continue || (value!=null && (value > 800 || value <-800))) {
-            value = evaluate(temp, depth);
-            return;
+        WinStates temp = utils.checkWin(board); // if someone has won
+        if(depth > max || temp != WinStates.Continue) {
+            value = evaluate(temp, depth); // evaluation function
+            return; // return if the game has ended or if depth > max
         }
 
         boolean breakCondition = false;
@@ -51,23 +51,22 @@ public class Node {
         int dim = GomokuLogic.dimension;
         int hdim = dim/2;
 
+        // this loop checks boxes one by one from the center
         for(int k=1; k<hdim+1; k++) {
             for(int i=hdim-k; i<Math.min(hdim+k, dim) && !breakCondition; i++)
             {
                 for(int j = hdim-k; j<Math.min(hdim+k, dim) && !breakCondition; j++)
                 {
-                    shit();
-
-                    Move newMove = new Move(i, j);
+                    Move newMove = new Move(i, j); // just to pass params
                     if(board.validate_input(newMove))
                     {
                         board.makeMove(newMove, turn);
-                        Node node = new Node(board, newMove, (turn+1)%2, this);
+                        Node node = new Node(board, newMove, (turn+1)%2, this); //  create the new child
                         children.add(node);
-                        node.populateChildren(depth+1, max);
+                        node.populateChildren(depth+1, max); // gives us the branch value
                         updateValue(node);
                         board.undoMove(newMove);
-                        breakCondition = evaluateToBreak();
+                        breakCondition = evaluateToBreak(); // alpha beta pruning condition
                     }
 
                 }
@@ -112,12 +111,12 @@ public class Node {
             flag = true;
         }
 
-        else if(turn == 0 && value > node.value)
+        else if(turn == 0 && value > node.value) // min
         {
             // value = Math.min(value, node.value);
             flag = true;
         }
-        else if(turn == 1 && value < node.value)
+        else if(turn == 1 && value < node.value) // max
         {
             // value = Math.max(value, node.value);
             flag = true;
@@ -127,12 +126,6 @@ public class Node {
             nextMove = node.move;
             value = node.value;
         }
-    }
-
-    private void shit() {
-        AI.shit++;
-        if(AI.shit % 1000000 == 0)
-            System.out.println(AI.shit / 1000000.0);
     }
 
     int evaluate(WinStates states, int depth) {
@@ -156,7 +149,7 @@ public class Node {
                 return child;
         }
         return null;
-    }
+    } // useless
 
 }
 

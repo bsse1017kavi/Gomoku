@@ -22,7 +22,7 @@ public class MainGUI extends Application
 
     GridPane grid = new GridPane();
     Scene scene = new Scene(grid, cellPixelSize*dimension, cellPixelSize*dimension);
-    GuiHelper helper = new GuiHelper();
+    GuiHelper helper = new GuiHelper(); // communicates i/o with logic classes
 
 
     @Override
@@ -72,14 +72,14 @@ public class MainGUI extends Application
     }
 
     void displayAIInput() {
-        Move move = helper.AIMove();
-        Circle circle = new Circle(cellPixelSize/2);
+        Move move = helper.AIMove(); // make ai move
+        Circle circle = new Circle(cellPixelSize/2); // updates ui
         circle.setFill(Color.GREEN);
         grid.add(circle, move.y, move.x);
-        helper.continueGame();
+        helper.continueGame(); // if the game has ended
     }
 
-    void handleUserInput(int x, int y) {
+    void handleUserInput(int x, int y) { // x y coordinate of user input
 
         Circle circle = new Circle(cellPixelSize/2);
         circle.setFill(Color.RED);
@@ -87,7 +87,7 @@ public class MainGUI extends Application
         Move move = new Move(y, x);
         helper.humanMove(move);
         System.out.println(move);
-        if(helper.continueGame())
+        if(helper.continueGame()) // if the game has ended
             displayAIInput();
     }
 
