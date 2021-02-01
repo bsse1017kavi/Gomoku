@@ -1,5 +1,8 @@
 package graphicsPackage;
 
+import gamePackage.Board;
+import gamePackage.GomokuLogic;
+import gamePackage.Move;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -15,10 +18,12 @@ import javafx.stage.Stage;
 public class MainGUI extends Application
 {
     int cellPixelSize = 50;
-    int dimension = 10;
+    int dimension = GomokuLogic.dimension;
 
     GridPane grid = new GridPane();
     Scene scene = new Scene(grid, cellPixelSize*dimension, cellPixelSize*dimension);
+    GuiHelper helper = new GuiHelper();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -39,22 +44,13 @@ public class MainGUI extends Application
                 }
             }
 
-//            Circle circle = new Circle(50);
-//            circle.setFill(Color.RED);
-//            grid.add(circle, 1, 1);
-
             grid.setOnMouseClicked(new EventHandler<MouseEvent>()
             {
                 @Override
                 public void handle(MouseEvent event) {
                     int x = (int)Math.floor((event.getSceneX()/cellPixelSize));
                     int y = (int)Math.floor((event.getSceneY()/cellPixelSize));
-                    ;
-                    Circle circle = new Circle(cellPixelSize/2);
-                    circle.setFill(Color.RED);
-                    grid.add(circle, x, y);
-
-                    System.out.println(x + " " + y);
+                    handleUserInput(x, y);
                 }
             });
 
@@ -66,6 +62,27 @@ public class MainGUI extends Application
         {
             e.printStackTrace();
         }
+
+
+
+    }
+
+    void displayAIInput() {
+        Move move = helper.AIMove();
+        Circle circle = new Circle(cellPixelSize/2);
+        circle.setFill(Color.GREEN);
+        grid.add(circle, move.y, move.x);
+    }
+
+    void handleUserInput(int x, int y) {
+
+        Circle circle = new Circle(cellPixelSize/2);
+        circle.setFill(Color.RED);
+        grid.add(circle, x, y);
+        Move move = new Move(y, x);
+        helper.humanMove(move);
+        System.out.println(move);
+        displayAIInput();
     }
 
     public static void main(String[] args)

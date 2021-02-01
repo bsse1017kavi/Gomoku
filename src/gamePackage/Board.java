@@ -26,7 +26,6 @@ public class Board {
 
     public boolean validate_input(Move move)
     {
-
         return board[move.x][move.y] == -1;
     }
 

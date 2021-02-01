@@ -4,16 +4,15 @@ import java.util.Scanner;
 
 public class GomokuLogic
 {
-    public static int dimension = 10, winCount = 4;
+    public static int dimension = 3, winCount = 2;
 
     Board board = new Board(dimension);
     Utils utils = new Utils();
-    Move humanMove = null;
 
 
     boolean isHuman = false;
 
-    AI ai = new AI(board);
+    AI ai = new AI();
 
     public GomokuLogic()
     {
@@ -26,13 +25,11 @@ public class GomokuLogic
             }
         }
 
-       /* board.board[0][0] = 0;
-        board.board[0][1] = 1;
-        board.board[1][1] = 1;
-        board.board[1][2] = 0;*/
-        /*board.board[9][8] = 1;
-        board.board[8][7] = 1;*/
-
+        /*board.board[0][0] = 0;
+        board.board[0][1] = 0;
+        board.board[0][2] = 1;
+        board.board[1][0] = 0;
+        board.board[2][1] = 1;*/
 
     }
 
@@ -57,8 +54,6 @@ public class GomokuLogic
                 break;
             }
 
-            // giveTurn();
-
             isHuman = !isHuman;
         }
 
@@ -67,6 +62,7 @@ public class GomokuLogic
 
     public void giveTurn()
     {
+        Move humanMove = null;
         if(isHuman)
         {
             while(true)
@@ -77,6 +73,10 @@ public class GomokuLogic
                 x = scanner.nextInt();
                 y = scanner.nextInt();
                 humanMove = new Move(x, y);
+
+                //System.out.println(x + " " + y);
+
+                //scanner.close();
 
                 if(utils.validate_input(board, x,y))
                 {
@@ -93,7 +93,7 @@ public class GomokuLogic
 
         else
         {
-            ai.makeMove(board, humanMove);
+            ai.makeMove(board);
         }
     }
 
