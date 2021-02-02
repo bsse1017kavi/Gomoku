@@ -3,8 +3,13 @@ package gamePackage;
 public class AI
 {
 
+    public static int hdim = 3;
+
     public Move makeMove(Board board)
     {
+        /*if(hdim < 5 && t%2==1)
+            hdim++;
+        t++;*/
 
         Node root = new Node(board, null, 1, null); // it all starts here
         root.populateChildren(1, 5); // build tree

@@ -27,50 +27,51 @@ public class Node {
 
         boolean breakCondition = false;
 
-        for(int i=0; i<board.dimension && !breakCondition; i++)
-        {
-            for(int j = 0; j<board.dimension && !breakCondition; j++)
-            {
-
-                Move newMove = new Move(i, j);
-                if(board.validate_input(newMove))
-                {
-                    board.makeMove(newMove, turn);
-                    Node node = new Node(board, newMove, (turn+1)%2, this);
-                    children.add(node);
-                    node.populateChildren(depth+1, max);
-                    updateValue(node);
-                    board.undoMove(newMove);
-                    breakCondition = evaluateToBreak();
-                }
-
-            }
-        }
-
-        int dim = GomokuLogic.dimension;
-        int hdim = dim/2;
-
-        // this loop checks boxes one by one from the center
-//        for(int k=1; k<hdim+1; k++) {
-//            for(int i=hdim-k; i<Math.min(hdim+k, dim) && !breakCondition; i++)
+//        for(int i=0; i<board.dimension && !breakCondition; i++)
+//        {
+//            for(int j = 0; j<board.dimension && !breakCondition; j++)
 //            {
-//                for(int j = hdim-k; j<Math.min(hdim+k, dim) && !breakCondition; j++)
-//                {
-//                    Move newMove = new Move(i, j); // just to pass params
-//                    if(board.validate_input(newMove))
-//                    {
-//                        board.makeMove(newMove, turn);
-//                        Node node = new Node(board, newMove, (turn+1)%2, this); //  create the new child
-//                        children.add(node);
-//                        node.populateChildren(depth+1, max); // gives us the branch value
-//                        updateValue(node);
-//                        board.undoMove(newMove);
-//                        breakCondition = evaluateToBreak(); // alpha beta pruning condition
-//                    }
 //
+//                Move newMove = new Move(i, j);
+//                if(board.validate_input(newMove))
+//                {
+//                    board.makeMove(newMove, turn);
+//                    Node node = new Node(board, newMove, (turn+1)%2, this);
+//                    children.add(node);
+//                    node.populateChildren(depth+1, max);
+//                    updateValue(node);
+//                    board.undoMove(newMove);
+//                    breakCondition = evaluateToBreak();
 //                }
+//
 //            }
 //        }
+
+        int dim = GomokuLogic.dimension;
+        // int hdim = dim/2;
+        int hdim = AI.hdim;
+        int hdim2 = dim/2;
+
+
+        for(int k=1; k<hdim+1; k++) {
+            for(int i=hdim2-k; i<Math.min(hdim2+k, dim) && !breakCondition; i++)
+            {
+                for(int j = hdim2-k; j<Math.min(hdim2+k, dim) && !breakCondition; j++)
+                {
+                    Move newMove = new Move(i, j); // just to pass params
+                    if(board.validate_input(newMove))
+                    {
+                        board.makeMove(newMove, turn);
+                        Node node = new Node(board, newMove, (turn+1)%2, this); //  create the new child
+                        children.add(node);
+                        node.populateChildren(depth+1, max); // gives us the branch value
+                        updateValue(node);
+                        board.undoMove(newMove);
+                        breakCondition = evaluateToBreak(); // alpha beta pruning condition
+                    }
+                }
+            }
+        }
 
         /*Node n;
         if(turn == 0)
