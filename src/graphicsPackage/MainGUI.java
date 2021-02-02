@@ -1,5 +1,6 @@
 package graphicsPackage;
 
+import gamePackage.AI;
 import gamePackage.Board;
 import gamePackage.GomokuLogic;
 import gamePackage.Move;
@@ -87,8 +88,27 @@ public class MainGUI extends Application
         Move move = new Move(y, x);
         helper.humanMove(move);
         System.out.println(move);
+
+        optimize(move);
+
         if(helper.continueGame()) // if the game has ended
-            displayAIInput();
+            displayAIInput(); // this line needs to be executed concurrently
+    }
+
+    private void optimize(Move move) {
+        if((move.x == 2 || move.y == 2 ) && AI.hdim <4)
+        {
+            AI.hdim = 4;
+        }
+        if((move.x == 1 || move.y == 1 ) && AI.hdim <5)
+        {
+            AI.hdim = 5;
+        }
+        if((move.x == 0 || move.y == 0 ) && AI.hdim <5)
+        {
+            AI.hdim = 5;
+        }
+        System.out.println("S: " + AI.hdim + ", " );
     }
 
     public static void main(String[] args)
@@ -96,3 +116,5 @@ public class MainGUI extends Application
         launch(args);
     }
 }
+
+

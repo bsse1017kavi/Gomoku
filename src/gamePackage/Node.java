@@ -49,13 +49,15 @@ public class Node {
         }*/
 
         int dim = GomokuLogic.dimension;
-        int hdim = dim/2;
+        // int hdim = dim/2;
+        int hdim = AI.hdim;
+        int hdim2 = dim/2;
 
         // this loop checks boxes one by one from the center
         for(int k=1; k<hdim+1; k++) {
-            for(int i=hdim-k; i<Math.min(hdim+k, dim) && !breakCondition; i++)
+            for(int i=hdim2-k; i<Math.min(hdim2+k, dim) && !breakCondition; i++)
             {
-                for(int j = hdim-k; j<Math.min(hdim+k, dim) && !breakCondition; j++)
+                for(int j = hdim2-k; j<Math.min(hdim2+k, dim) && !breakCondition; j++)
                 {
                     Move newMove = new Move(i, j); // just to pass params
                     if(board.validate_input(newMove))
@@ -68,7 +70,6 @@ public class Node {
                         board.undoMove(newMove);
                         breakCondition = evaluateToBreak(); // alpha beta pruning condition
                     }
-
                 }
             }
         }
