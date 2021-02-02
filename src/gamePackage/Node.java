@@ -145,7 +145,7 @@ public class Node {
         {
             int score = 0;
             int count = 0;
-            int var = 3;
+            int var = 2;
             for(int i=0; i<board.dimension; i++)
             {
                 count = 0;
@@ -156,7 +156,7 @@ public class Node {
 
                     if(count>var)
                     {
-                        score -= 20*count;
+                        score -= 200*count;
                     }
 
                     else
@@ -175,7 +175,7 @@ public class Node {
                         count++;
                     if(count>var)
                     {
-                        score -= 20*count;
+                        score -= 200*count;
                     }
                     else
                         count = 0;
@@ -197,7 +197,7 @@ public class Node {
                             count++;
                         if(count>var)
                         {
-                            score -= 20*count;
+                            score -= 200*count;
                         }
                         else
                             count = 0;
@@ -219,7 +219,7 @@ public class Node {
                             count++;
                         if(count>var)
                         {
-                            score -= 20*count;
+                            score -= 200*count;
                         }
                         else
                             count = 0;
