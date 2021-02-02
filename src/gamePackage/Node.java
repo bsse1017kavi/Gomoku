@@ -2,6 +2,8 @@ package gamePackage;
 
 import java.util.ArrayList;
 
+import static gamePackage.GomokuLogic.winCount;
+
 public class Node {
     Node parent;
     ArrayList<Node> children = new ArrayList<>();
@@ -27,33 +29,32 @@ public class Node {
 
         boolean breakCondition = false;
 
-        /*for(int i=0; i<board.dimension && !breakCondition; i++)
-        {
-            for(int j = 0; j<board.dimension && !breakCondition; j++)
-            {
-                shit();
-
-                Move newMove = new Move(i, j);
-                if(board.validate_input(newMove))
-                {
-                    board.makeMove(newMove, turn);
-                    Node node = new Node(board, newMove, (turn+1)%2, this);
-                    children.add(node);
-                    node.populateChildren(depth+1, max);
-                    updateValue(node);
-                    board.undoMove(newMove);
-                    breakCondition = evaluateToBreak();
-                }
-
-            }
-        }*/
+//        for(int i=0; i<board.dimension && !breakCondition; i++)
+//        {
+//            for(int j = 0; j<board.dimension && !breakCondition; j++)
+//            {
+//
+//                Move newMove = new Move(i, j);
+//                if(board.validate_input(newMove))
+//                {
+//                    board.makeMove(newMove, turn);
+//                    Node node = new Node(board, newMove, (turn+1)%2, this);
+//                    children.add(node);
+//                    node.populateChildren(depth+1, max);
+//                    updateValue(node);
+//                    board.undoMove(newMove);
+//                    breakCondition = evaluateToBreak();
+//                }
+//
+//            }
+//        }
 
         int dim = GomokuLogic.dimension;
         // int hdim = dim/2;
         int hdim = AI.hdim;
         int hdim2 = dim/2;
 
-        // this loop checks boxes one by one from the center
+
         for(int k=1; k<hdim+1; k++) {
             for(int i=hdim2-k; i<Math.min(hdim2+k, dim) && !breakCondition; i++)
             {
@@ -141,7 +142,101 @@ public class Node {
         /*else
             return utils.getDistFromCenter(move);*/
         else
-            return -1;
+        {
+            int score = 0;
+            int count = 0;
+            int var = 3;
+            for(int i=0; i<board.dimension; i++)
+            {
+                count = 0;
+                for(int j =0; j<board.dimension-1; j++)
+                {
+                    if(board.board[i][j] == board.board[i][j+1]  && board.board[i][j]  != -1 && board.board[i][j]  == 0)
+                        count++;
+
+                    if(count>var)
+                    {
+                        score -= 20*count;
+                    }
+
+                    else
+                        count = 0;
+                }
+            }
+
+            score += count;
+
+            for(int i=0; i<board.dimension; i++)
+            {
+                count = 0;
+                for(int j =0; j<board.dimension-1; j++)
+                {
+                    if(board.board[j][i] == board.board[j+1][i] && board.board[j][i] != -1 && board.board[j][i] == 0)
+                        count++;
+                    if(count>var)
+                    {
+                        score -= 20*count;
+                    }
+                    else
+                        count = 0;
+
+                }
+            }
+
+            score += count;
+
+            for(int i=0; i<board.dimension; i++)
+            {
+                for(int j=0; j<board.dimension; j++) {
+                    if(i!=0 && j!=0)
+                        break;
+                    count = 0;
+                    for(int k = 0; i+k+1<board.dimension && j+k+1<board.dimension; k++)
+                    {
+                        if(board.board[i+k][j+k]==board.board[i+k+1][j+k+1]  && board.board[i+k][j+k] != -1 && board.board[i+k][j+k] == 0)
+                            count++;
+                        if(count>var)
+                        {
+                            score -= 20*count;
+                        }
+                        else
+                            count = 0;
+                    }
+                }
+            }
+
+            score += count;
+
+            for(int i=board.dimension-1; i>-1; i=-1)
+            {
+                for(int j=board.dimension-1; j> -1; j--) {
+                    // if(i!=dimension-1 && j!=dimension-1) break;
+
+                    count = 0;
+                    for(int k = 0; i-k-1>-1 && j+k+1<board.dimension; k++)
+                    {
+                        if(board.board[i-k][j+k]==board.board[i-k-1][j+k+1]  && board.board[i-k][j+k] != -1 && board.board[i-k][j+k] == 0)
+                            count++;
+                        if(count>var)
+                        {
+                            score -= 20*count;
+                        }
+                        else
+                            count = 0;
+
+                    }
+                }
+            }
+
+            score += count;
+
+            //System.out.println("Score: " + score);
+
+            return score;
+
+        }
+
+            //return -1;
     }
 
     Node getChildAfter(Move move) {
