@@ -7,7 +7,7 @@ public class AI
 
     public Move makeMove(Board board)
     {
-        int maxDepth = 4;
+        int maxDepth = 5;
         if(hdim == 5) maxDepth = 3;
         // if(hdim == 4) maxDepth = 3;
 

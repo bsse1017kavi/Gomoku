@@ -199,7 +199,7 @@ public class Utils {
                 if(count == winCount-1)
                 {
                     int openEnds = 0;
-                    if(board.board[j1-1][i1] == -1)
+                    if(j1 != 0 && board.board[j1-1][i1] == -1)
                         openEnds++;
                     if((j < board.dimension - 2) && board.board[j+1+1][i] == -1)
                         openEnds++;
