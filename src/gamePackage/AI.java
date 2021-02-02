@@ -11,6 +11,7 @@ public class AI
         if(hdim == 5) maxDepth = 2;
         if(hdim == 4) maxDepth = 4;
 
+
         Node root = new Node(board, null, 1, null); // it all starts here
         root.populateChildren(1, maxDepth); // build tree
         board.makeMove(root.nextMove, 1); // the next move is automatically calculated and played here
