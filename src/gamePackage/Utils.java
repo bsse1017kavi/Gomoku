@@ -237,7 +237,7 @@ public class Utils {
                         int openEnds = 0;
                         if(i1 != -1 && j1!= -1 && board.board[i1][j1] == -1)
                             openEnds++;
-                        if(!(i+k+2==board.dimension-1 && j+k+2==board.dimension-1) && board.board[i+k+2][j+k+2] == -1)
+                        if((i+k+2<board.dimension && j+k+2<board.dimension-1) && board.board[i+k+2][j+k+2] == -1)
                             openEnds++;
                         return openEnds;
                     }
