@@ -89,7 +89,7 @@ public class MainGUI extends Application
         helper.humanMove(move);
         System.out.println(move);
 
-        optimize(move);
+        //optimize(move);
 
         if(helper.continueGame()) // if the game has ended
             displayAIInput(); // this line needs to be executed concurrently
