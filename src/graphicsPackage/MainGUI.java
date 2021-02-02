@@ -60,6 +60,7 @@ public class MainGUI extends Application
             });
 
             primaryStage.setScene(scene);
+            primaryStage.setTitle("Gomoku");
             primaryStage.show();
 
 
