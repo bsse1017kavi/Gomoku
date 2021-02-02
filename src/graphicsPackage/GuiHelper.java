@@ -1,6 +1,13 @@
 package graphicsPackage;
 
 import gamePackage.*;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.Scanner;
 
@@ -40,11 +47,61 @@ public class GuiHelper
         if(result!=WinStates.Continue)
         {
             if(result == WinStates.Draw)
+            {
                 System.out.println("Draw!");
+
+                Stage stage = new Stage();
+
+                GridPane root = new GridPane();
+
+                root.setAlignment(Pos.CENTER);
+
+                Label text = new Label("Draw");
+                text.setStyle("-fx-font-size: 20");
+                root.addRow(0,text);
+
+                Scene scene = new Scene(root,200, 100);
+                stage.setScene(scene);
+                stage.show();
+            }
+
             if(result == WinStates.AI_Win)
-                System.out.println("AI Wins");
+            {
+                System.out.println("You lost!");
+
+                Stage stage = new Stage();
+
+                GridPane root = new GridPane();
+
+                root.setAlignment(Pos.CENTER);
+
+                Label text = new Label("You lost!");
+                text.setStyle("-fx-font-size: 20");
+                root.addRow(0,text);
+
+                Scene scene = new Scene(root,200, 100);
+                stage.setScene(scene);
+                stage.show();
+            }
+
             if(result == WinStates.Human_Win)
-                System.out.println("Human Wins");
+            {
+                System.out.println("You Won!");
+
+                Stage stage = new Stage();
+
+                GridPane root = new GridPane();
+
+                root.setAlignment(Pos.CENTER);
+
+                Label text = new Label("You Won!");
+                text.setStyle("-fx-font-size: 20");
+                root.addRow(0,text);
+
+                Scene scene = new Scene(root,200, 100);
+                stage.setScene(scene);
+                stage.show();
+            }
             return false;
         }
 
