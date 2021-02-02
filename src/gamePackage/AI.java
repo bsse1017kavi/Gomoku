@@ -7,9 +7,10 @@ public class AI
 
     public Move makeMove(Board board)
     {
-        int maxDepth = 5;
-        if(hdim == 5) maxDepth = 3;
-        if(hdim == 4) maxDepth = 4;
+//        int maxDepth = 5;
+//        if(hdim == 5) maxDepth = 3;
+//        if(hdim == 4) maxDepth = 4;
+        int maxDepth = 2;
 
         Node root = new Node(board, null, 1, null); // it all starts here
         root.populateChildren(1, maxDepth); // build tree
