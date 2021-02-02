@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class GuiHelper
 {
-
     Board board = new Board(GomokuLogic.dimension);
     Utils utils = new Utils();
     AI ai = new AI();
