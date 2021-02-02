@@ -8,7 +8,7 @@ public class AI
     public Move makeMove(Board board)
     {
         int maxDepth = 5;
-        if(hdim == 5) maxDepth = 3;
+        if(hdim == 5) maxDepth = 2;
         if(hdim == 4) maxDepth = 4;
 
         Node root = new Node(board, null, 1, null); // it all starts here
