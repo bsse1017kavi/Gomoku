@@ -145,42 +145,72 @@ public class Utils {
     }
 
     private int getHorizontalCount(Board board, int turn) {
+        int i1=0, j1=0;
         for(int i=0; i<board.dimension; i++)
         {
             int count = 0;
             for(int j =0; j<board.dimension-1; j++)
             {
-                if(i == board.dimension - 1 && j == board.dimension - 2)
-
                 if(board.board[i][j] == board.board[i][j+1]  && board.board[i][j]  == turn)
+                {
+                    if(count == 0)
+                    {
+                        i1= i;
+                        j1= j;
+                    }
                     count++;
+                }
                 else
                     count = 0;
                 if(count == winCount-1)
-                    return board.board[i][j];
+                {
+                    int openEnds = 0;
+                    if(i1 != 0 && j1!= 0 && board.board[i1-1][j1-1] == -1)
+                        openEnds++;
+                    if(!(i == board.dimension - 1 && j == board.dimension - 2) && board.board[i1-1][j1-1] == -1)
+                        openEnds++;
+                    return openEnds;
+                }
             }
         }
-        return -1;
+        return 0;
     }
 
     private int getVerticalCount(Board board, int turn) {
+        int i1=0, j1=0;
         for(int i=0; i<board.dimension; i++)
         {
             int count = 0;
             for(int j =0; j<board.dimension-1; j++)
             {
                 if(board.board[j][i] == board.board[j+1][i] && board.board[j][i] == turn)
+                {
+                    if(count == 0)
+                    {
+                        i1= i;
+                        j1= j;
+                    }
                     count++;
+                }
                 else
                     count = 0;
                 if(count == winCount-1)
-                    return board.board[j][i];
+                {
+                    int openEnds = 0;
+                    if(i1 != 0 && j1!= 0 && board.board[j1-1][i1] == -1)
+                        openEnds++;
+                    if(!(i == board.dimension - 1 && j == board.dimension - 2) && board.board[j+1][i] == -1)
+                        openEnds++;
+                    return openEnds;
+                }
             }
         }
-        return -1;
+        return 0;
     }
 
     private int getDiagCount(Board board, int turn) {
+        int i1=0, j1=0;
+
         for(int i=0; i<board.dimension; i++)
         {
             for(int j=0; j<board.dimension; j++) {
@@ -190,11 +220,25 @@ public class Utils {
                 for(int k = 0; i+k+1<board.dimension && j+k+1<board.dimension; k++)
                 {
                     if(board.board[i+k][j+k]==board.board[i+k+1][j+k+1]  && board.board[i+k][j+k] == turn)
+                    {
+                        if(count == 0)
+                        {
+                            i1= i+k-1;
+                            j1= j+k-1;
+                        }
                         count++;
+                    }
                     else
                         count = 0;
                     if(count == winCount-1)
-                        return board.board[i+k][j+k];
+                    {
+                        int openEnds = 0;
+                        if(i1 != -1 && j1!= -1 && board.board[i1][j1] == -1)
+                            openEnds++;
+                        if(!(i+k+1==board.dimension-1 && j+k+1==board.dimension-1) && board.board[i+k+1][j+k+1] == -1)
+                            openEnds++;
+                        return openEnds;
+                    }
                 }
             }
         }
@@ -207,16 +251,30 @@ public class Utils {
                 int count = 0;
                 for(int k = 0; i-k-1>-1 && j+k+1<board.dimension; k++)
                 {
-                    if(board.board[i-k][j+k]==board.board[i-k-1][j+k+1]  && board.board[i-k][j+k] != -1)
+                    if(board.board[i+k][j+k]==board.board[i+k+1][j+k+1]  && board.board[i+k][j+k] == turn)
+                    {
+                        if(count == 0)
+                        {
+                            i1= i+k-1;
+                            j1= j+k-1;
+                        }
                         count++;
+                    }
                     else
                         count = 0;
-                    if(count == winCount)
-                        return board.board[i-k][j+k];
+                    if(count == winCount-1)
+                    {
+                        int openEnds = 0;
+                        if(i1 != -1 && j1!= -1 && board.board[i1][j1] == -1)
+                            openEnds++;
+                        if(!(i+k+1==board.dimension-1 && j+k+1==board.dimension-1) && board.board[i+k+1][j+k+1] == -1)
+                            openEnds++;
+                        return openEnds;
+                    }
                 }
             }
         }
-        return -1;
+        return 0;
     }
 
     private boolean isStalemate(Board board) {

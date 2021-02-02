@@ -96,11 +96,11 @@ public class MainGUI extends Application
     }
 
     private void optimize(Move move) {
-        if((move.x == 2 || move.y == 2 ) && AI.hdim <4)
+        if((move.x == 2 || move.y == 2 || move.x == 7 || move.y == 7 ) && AI.hdim <4)
         {
             AI.hdim = 4;
         }
-        if((move.x == 1 || move.y == 1 ) && AI.hdim <5)
+        if((move.x == 1 || move.y == 1 || move.x == 8 || move.y == 8 ) && AI.hdim <5)
         {
             AI.hdim = 5;
         }
