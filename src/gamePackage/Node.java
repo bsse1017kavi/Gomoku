@@ -141,6 +141,14 @@ public class Node {
             return 0;
         /*else
             return utils.getDistFromCenter(move);*/
+
+        states = utils.checkCertainWin(board, turn);
+        if(states == WinStates.AI_Win)
+            return 700 - 20*depth;
+
+        else if(states == WinStates.Human_Win)
+            return -700 + 20*depth;
+
         else
         {
             int score = 0;

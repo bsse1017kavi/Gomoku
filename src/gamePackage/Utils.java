@@ -2,6 +2,7 @@ package gamePackage;
 
 import java.util.ArrayList;
 
+import static gamePackage.GomokuLogic.dimension;
 import static gamePackage.GomokuLogic.winCount;
 
 public class Utils {
@@ -40,9 +41,9 @@ public class Utils {
         int dwin = getDiagCount(board, turn);
         int vwin = getVerticalCount(board, turn);
 
-        if((hwin == 0 || dwin == 0 || vwin == 0) && turn == 0)
+        if(!(hwin == 0 && dwin == 0 && vwin == 0) && turn == 0)
             return WinStates.Human_Win;
-        else if((hwin == 1 || dwin == 1 || vwin == 1) && turn == 1)
+        else if(!(hwin == 0 && dwin == 0 && vwin == 0) && turn == 1)
             return WinStates.AI_Win;
 
         if(isStalemate(board))
@@ -52,12 +53,13 @@ public class Utils {
         dwin = getDiagCount(board, (turn+1)%2);
         vwin = getVerticalCount(board, (turn+1)%2);
         int temp = 0;
-        if(hwin == (turn+1)%2)
+        /*if(hwin == (turn+1)%2)
             temp++;
         if(dwin == (turn+1)%2)
             temp++;
         if(vwin == (turn+1)%2)
-            temp++;
+            temp++;*/
+        temp += hwin + dwin + vwin;
 
         if(temp >= 2)
         {
@@ -165,9 +167,9 @@ public class Utils {
                 if(count == winCount-1)
                 {
                     int openEnds = 0;
-                    if(i1 != 0 && j1!= 0 && board.board[i1-1][j1-1] == -1)
+                    if(j1!= 0 && board.board[i1][j1-1] == -1)
                         openEnds++;
-                    if(!(i == board.dimension - 1 && j == board.dimension - 2) && board.board[i1-1][j1-1] == -1)
+                    if((j < board.dimension - 2) && board.board[i][j+1+1] == -1)
                         openEnds++;
                     return openEnds;
                 }
@@ -197,9 +199,9 @@ public class Utils {
                 if(count == winCount-1)
                 {
                     int openEnds = 0;
-                    if(i1 != 0 && j1!= 0 && board.board[j1-1][i1] == -1)
+                    if(board.board[j1-1][i1] == -1)
                         openEnds++;
-                    if(!(i == board.dimension - 1 && j == board.dimension - 2) && board.board[j+1][i] == -1)
+                    if((j < board.dimension - 2) && board.board[j+1+1][i] == -1)
                         openEnds++;
                     return openEnds;
                 }
@@ -235,7 +237,7 @@ public class Utils {
                         int openEnds = 0;
                         if(i1 != -1 && j1!= -1 && board.board[i1][j1] == -1)
                             openEnds++;
-                        if(!(i+k+1==board.dimension-1 && j+k+1==board.dimension-1) && board.board[i+k+1][j+k+1] == -1)
+                        if(!(i+k+2==board.dimension-1 && j+k+2==board.dimension-1) && board.board[i+k+2][j+k+2] == -1)
                             openEnds++;
                         return openEnds;
                     }
@@ -251,11 +253,11 @@ public class Utils {
                 int count = 0;
                 for(int k = 0; i-k-1>-1 && j+k+1<board.dimension; k++)
                 {
-                    if(board.board[i+k][j+k]==board.board[i+k+1][j+k+1]  && board.board[i+k][j+k] == turn)
+                    if(board.board[i-k][j+k]==board.board[i-k-1][j+k+1]  && board.board[i-k][j+k] != -1)
                     {
                         if(count == 0)
                         {
-                            i1= i+k-1;
+                            i1= i-k+1;
                             j1= j+k-1;
                         }
                         count++;
@@ -265,9 +267,9 @@ public class Utils {
                     if(count == winCount-1)
                     {
                         int openEnds = 0;
-                        if(i1 != -1 && j1!= -1 && board.board[i1][j1] == -1)
+                        if(i1 != -1 && j1!= -1 && i1<dimension && j1<dimension && board.board[i1][j1] == -1)
                             openEnds++;
-                        if(!(i+k+1==board.dimension-1 && j+k+1==board.dimension-1) && board.board[i+k+1][j+k+1] == -1)
+                        if((i-k-1>-1 && j+k+2<board.dimension) && board.board[i-k-2][j+k+2] == -1)
                             openEnds++;
                         return openEnds;
                     }
